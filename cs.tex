@@ -1,0 +1,52 @@
+\documentclass{article}
+\usepackage[a4paper,margin=0mm]{geometry}
+\usepackage{parskip,setspace,titlesec,enumitem,tcolorbox,amsmath,amssymb}
+
+\setstretch{0.6}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt}
+\titlespacing*{\section}{0pt}{0pt}{0pt}
+\setlist{nosep,leftmargin=3mm}
+
+\begin{document}
+\raggedbottom
+\scriptsize
+\begin{tcolorbox}[colframe=black,colback=white,boxrule=0.3pt,arc=1pt,
+left=0pt,right=0pt,top=0pt,bottom=0pt]
+
+\begin{minipage}[t]{0.49\textwidth}
+% Left column content goes here
+\textbf{Machine Learning}
+\begin{itemize}
+    \item Supervised Learning: Given data, attempt to output correct label
+    \item Unsupervised Learning
+    \item Semi-Supervised Learning
+    \item Neural Networks
+\end{itemize}
+
+\textbf{Search}
+
+\textbf{Markov Decision Processes}
+
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.49\textwidth}
+
+\textbf{Reinforcement Learning}
+
+\textbf{Bayesian Networks}
+
+\end{minipage}
+
+\end{tcolorbox}
+\newpage
+
+\begin{minipage}[t]{0.49\textwidth}
+% Second page left column content goes here
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.49\textwidth}
+% Second page right column content goes here
+\end{minipage}
+
+\end{document}
