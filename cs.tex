@@ -14,25 +14,157 @@
 \begin{tcolorbox}[colframe=black,colback=white,boxrule=0.3pt,arc=1pt,
 left=0pt,right=0pt,top=0pt,bottom=0pt]
 
-\begin{minipage}[t]{0.49\textwidth}
+\begin{minipage}[t]{0.45\textwidth}
 % Left column content goes here
-\textbf{Machine Learning}
+\textbf{Linear Algebra:}
 \begin{itemize}
-    \item Supervised Learning: Given data, attempt to output correct label
-    \item Unsupervised Learning
-    \item Semi-Supervised Learning
-    \item Neural Networks
+    \item Vector Multiplication: $x^T y = \sum_{i=1}^{n} x_i y_i$
+        \item Matrix Multiplication: $C = AB \rightarrow C_{ij} = \sum_{k=1}^{n} A_{ik} B_{kj}$
+        \item Gradients: $\nabla f = \left[\frac{\partial f}{\partial x_1}, \frac{\partial f}{\partial x_2}, \ldots, \frac{\partial f}{\partial x_n}\right]^T$
+        \item Gradients of Common Functions: $\nabla (a^T x) = a$, $\nabla (x^T A x) = (A + A^T)x$
 \end{itemize}
 
-\textbf{Search}
+\textbf{Machine Learning}
+\begin{itemize}
+    \item Supervised Learning: Given labelled data, attempt to learn function that assigns labels to unlabelled data
+    \item Unsupervised Learning: Given unlabelled data, attempt to find structure
+    \item K-nearest Neighbours: Classify based on majority label of k nearest points
+    \item Confusion matrix:
+    \begin{tabular}{c|cc}
+     & Actual: yes & Actual: no \\
+    \hline
+    Predicted: yes & TP & FN \\
+    Predicted: no & FP & TN
+    \end{tabular}
+    \item Precision = $\frac{TP}{TP + FP}$ 
+    \item Recall = $\frac{TP}{TP + FN}$ 
+    \item Specificity = $\frac{TN}{TN + FP}$ 
+    \item Cross Validation: Split data into k subsets, train on k-1, test on 1, repeat k times
+    \item Overfitting: Model fits training data too closely, fails to generalise
+    \item Underfitting: Model too simple to capture underlying structure
+    \item Decision Trees: Create node based on best-split feature, for all split data repeat
+    \item Binary Classification: $f(x) \rightarrow y \in \{1, -1\}$
+    \item Regression: $f(x) \rightarrow y \in \mathbb{R}$
+    \item Hypothesis class: Function our algo will produce
+    \item Loss function: How accurate is our predictor?
+    \item Optimization Algo: How do we minimize loss?
+    \item Linear Regression:
+    \begin{itemize}
+        \item Hypothesis: $f(x) = w_1 + w_2 x$ or $f_w(x)=w\cdot \phi(x): w=[w_1, w_2], \phi(x)=[1,x]$
+        \item Loss: $Loss(x,y,w)=(f_w(x)-y)^2$
+        \item $TrainLoss(w)=\frac{1}{|D_{train}|}\sum_{(x,y)\in D_{train}}Loss(x,y,w)$
+        \item Optimization: $\nabla_w TrainLoss(w) = \frac{1}{|D_{train}|}\sum_{(x,y)\in D_{train}}2(w\cdot \phi(x)-y) \phi(x)$
+        \item Gradient Update: $w \leftarrow w - \eta\nabla_w TrainLoss(w): \eta = 0.1$
+    \end{itemize}
+    \item Binary Classification: Create a linear function representing a boundary
+    \begin{itemize}
+        \item Hypothesis: $f(x)=sign(w\cdot\phi(x)): sign(z)={1:z>0,-1:z<0,0:z=0}$
+        \item Zero One Loss: $Loss_{0-1}(x,y,w)=1[f_w(x)\neq y]$
+        \item Hinge Loss: $Loss_{hinge}(x,y,w)=max\{1-(w\cdot \phi(x))y, 0\}$
+        \item Logistic Regression: $Loss_{logistic}(x,y,w)=\log(1+e^{-(w\cdot\phi(x))y})$
+    \end{itemize}
+    \item Stochastic Gradient Descent: Gradient descent is slow!
+    \item Neural Networks 
+    \begin{itemize}
+        \item Hypothesis: $f(x) = V \sigma(W\phi(x))$ where $\sigma$ is activation function
+        \item Activation functions: $\sigma(z) = \max\{0,z\}$ (ReLU), $\sigma(z) = \frac{1}{1+e^{-z}}$ (sigmoid)
+        \item Forward propagation: Compute layer outputs from input to output
+        \item Backpropagation: Compute gradients using chain rule, update weights
+        \item Architecture: Input layer $\rightarrow$ Hidden layers $\rightarrow$ Output layer
+        \item Layers represent multiple layers of abstraction
+    \end{itemize}
+    \item How to prevent overfitting?
+    \begin{itemize}
+        \item Reduce Dimensionality by removing features
+        \item Regularize: $\min_w TrainLoss(w) + \lambda / 2 \cdot ||w||^2$
+    \end{itemize}
+    
+\end{itemize}
 
+\textbf{Search}: No uncertainty\\
+Definitions: $b$: branching factor, $m$: maximum depth
+\begin{itemize}
+    \item{Components of a search problem:}
+        \begin{itemize}
+            \item State space: All possible states of an environment
+            \item Successor function: function that maps actions to consequences
+            \item Start state and end goal state
+        \end{itemize}
+        \item{DFS:}
+        \begin{itemize}
+            \item Idea: Expand one node as much as possible before exploring another path
+            \item{$O(b^m)$ time complexity}
+            \item $O(bm)$ space complexity 
+            \item Complete if infinite tree size prevented
+            \item Not optimal
+        \end{itemize}
+        \item{BFS:}
+        \begin{itemize}
+            \item Idea: prioritize nodes closest to start
+            \item{$O(b^d)$ time complexity where $d$ is depth of solution}
+            \item $O(b^d)$ space complexity 
+            \item Complete
+            \item Optimal if step costs are equal
+        \end{itemize}
+        \item{Dijkstra's (Uniform Cost Search):}
+        \begin{itemize}
+            \item Idea: prioritize expansion of low-cost paths 
+            \item{$O(b^{1+\lfloor C^*/\epsilon \rfloor})$ time complexity where $C^*$ is optimal cost, $\epsilon$ is minimum step cost}
+            \item $O(b^{1+\lfloor C^*/\epsilon \rfloor})$ space complexity 
+            \item Complete if step costs $\geq \epsilon > 0$
+            \item Optimal
+        \end{itemize}
+        \item{Greedy Search}
+        \begin{itemize}
+            \item Idea: Expand a node that we think is closest to the goal state
+            \item Utilize a heuristic
+        \end{itemize}
+        \item{A* Informed Search Algorithm}
+        \begin{itemize}
+            \item Idea: use a heuristic to improve efficiency and make informed decisions
+            \item Heuristic: A function that estimates how close a state is to the goal 
+            \item A heuristic is admissible if it never overestimates the cost of reaching a goal: $0 \le h(n) \le h*(n)$ where $h(n)$ is the cost to the nearest goal
+            \item A heuristic is consistent if $h(A)-h(C)\le cost(A\rightarrow C)$. If it is consistent then it is optimal 
+            \item $f(n) = g(n) + h(n)$
+        \end{itemize}
+\end{itemize}
 \textbf{Markov Decision Processes}
+\begin{itemize}
+    \item MDPs are defined by:
+    \begin{itemize}
+        \item set of states $s\in S$ and actions $a\in A$
+        \item transition functions $T(s,a,s')$ and reward functions $R(s,a,s')$
+        \item Start state and terminal state
+    \end{itemize}
+    \item Utility: sum of rewards recieved
+    \item Expected utility: $EU(a) = \sum_{a'}P(RES(a)=s')U(s')$
+    \item Policies: the plan to get from start to goal: $\pi*: S\rightarrow A$
+    \item With infinite utility we can mitigate with a finite horizon (limiting depth) or utilizing discounting: $U([r_0,\cdots, r_{\infty}])=\sum_{t=0}^{\infty}\gamma^t r_t \le R_{max}/(1-\gamma)$
+    \item Discounting: Sooner rewards have higher utility than later rewards 
+    \item The value of a state s is: $V*(s)=\max_a Q*(s,a): Q*(s,a) = $ expected utility starting out having taken action a from state s and acting optimally 
+    \item $\pi^*(s)=argmax_a Q*(s,a)$
+    \item Bellman Equations: Take correct first action $\rightarrow$ continue acting optimally
+    \begin{itemize}
+        \item $V*(s)=\max_a Q*(s,a)$
+        \item $Q*(s,a)=\sum_{s'}T(s,a,s')[R(s,a,s')+\gamma V*(s')]$
+    \end{itemize}
+\end{itemize}
 
 \end{minipage}
 \hfill
 \begin{minipage}[t]{0.49\textwidth}
 
-\textbf{Reinforcement Learning}
+\begin{itemize}
+    \item Complete Bellman Equation: $V*(s)=\max_a\sum_{s'}T(s,a,s')[R(s,a,s')+\gamma V^*(s')]$
+        \item Policy Extraction via Q-Values: $\pi^*(s)=argmax_a Q^*(s,a)$
+        \item Q-Value Iteration: $Q_{k+1}(s,a) = \sum_{s'}T(s,a,s')[R(s,a,s')+\gamma \max_{a'}Q_k(s',a')]$
+        \item Alternatively, we can perform policy iteration where we calculate values for some fixed policy until convergence, then update the policy using resulting converged values as future values
+\end{itemize}
+
+\textbf{Reinforcement Learning} MDP's without T or R!
+\begin{itemize}
+    \item 
+\end{itemize}
 
 \textbf{Bayesian Networks}
 
@@ -42,11 +174,155 @@ left=0pt,right=0pt,top=0pt,bottom=0pt]
 \newpage
 
 \begin{minipage}[t]{0.49\textwidth}
-% Second page left column content goes here
+\textbf{Algorithms:}
+\begin{itemize}
+    \item \textbf{K-nearest Neighbours}
+    \begin{verbatim}
+function KNN(x, data, k):
+    distances = []
+    for each (x_i, y_i) in data:
+        d = distance(x, x_i)
+        distances.append((d, y_i))
+    distances.sort()
+    neighbors = distances[0:k]
+    return mode([y for (d, y) in neighbors])
+    \end{verbatim}
+    \item \textbf{Learning a Decision Tree}
+    \begin{verbatim}
+function LearnDecisionTree(data, attributes):
+    if all examples have same label:
+        return Leaf(label)
+    if attributes is empty:
+        return Leaf(majority_label(data))
+    best_attr = choose_best_attribute(data, attributes)
+    tree = Node(best_attr)
+    for each value v of best_attr:
+        subset = {x in data : x[best_attr] = v}
+        if subset is empty:
+            tree.add_branch(v, Leaf(majority_label(data)))
+        else:
+            remaining = attributes - {best_attr}
+            subtree = LearnDecisionTree(subset, remaining)
+            tree.add_branch(v, subtree)
+    return tree
+
+function choose_best_attribute(data, attributes):
+    return argmax over attributes of information_gain
+        \end{verbatim}
+        \item \textbf{K-Means}
+        \begin{verbatim}
+function KMeans(data, k):
+    centroids = randomly_select_k_points(data)
+    repeat until convergence:
+        clusters = [[] for i in range(k)]
+        for each point x in data:
+            closest = argmin_i distance(x, centroids[i])
+            clusters[closest].append(x)
+        for i in range(k):
+            centroids[i] = mean(clusters[i])
+    return centroids, clusters
+        \end{verbatim}
+        \item \textbf{Stochastic Gradient Descent}
+        \begin{verbatim}
+function SGD(data, w_init, eta, num_epochs):
+    w = w_init # [0,...,0]
+    for epoch in range(num_epochs):
+        shuffle(data)
+        for each (x, y) in data:
+            gradient = compute_gradient(Loss(x, y, w), w)
+            w = w - eta * gradient
+    return w
+        \end{verbatim}
+        \item \textbf{DFS}
+        \begin{verbatim}
+function DFS(problem):
+    frontier = Stack()
+    frontier.push(start_state)
+    explored = set()
+    while frontier is not empty:
+        node = frontier.pop()
+        if node is goal:
+            return solution
+        explored.add(node)
+        for each successor of node:
+            if successor not in explored and not in frontier:
+                frontier.push(successor)
+    return failure
+        \end{verbatim}
+        \item \textbf{BFS}
+        \begin{verbatim}
+function BFS(problem):
+    frontier = Queue()
+    frontier.enqueue(start_state)
+    explored = set()
+    while frontier is not empty:
+        node = frontier.dequeue()
+        if node is goal:
+            return solution
+        explored.add(node)
+        for each successor of node:
+            if successor not in explored and not in frontier:
+                frontier.enqueue(successor)
+    return failure
+        \end{verbatim}
+        \item \textbf{Djikstra's Uniform Cost Search Algorithm}
+        \begin{verbatim}
+function Dijkstra(problem):
+    frontier = PriorityQueue()
+    frontier.push(start_state, 0)
+    explored = set()
+    cost = {start_state: 0}
+    while frontier is not empty:
+        node = frontier.pop()
+        if node is goal:
+            return solution
+        explored.add(node)
+        for each successor of node:
+            new_cost = cost[node] + step_cost(node, successor)
+            if successor not in explored:
+                if successor not in cost or new_cost < cost[successor]:
+                    cost[successor] = new_cost
+                    frontier.push(successor, new_cost)
+    return failure
+        \end{verbatim}
+        \item \textbf{A* Algorithm}
+        \begin{verbatim}
+function AStar(problem):
+    frontier = PriorityQueue()
+    frontier.push(start_state, h(start_state))
+    explored = set()
+    g_cost = {start_state: 0}
+    while frontier is not empty:
+        node = frontier.pop()
+        if node is goal:
+            return solution
+        explored.add(node)
+        for each successor of node:
+            new_cost = g_cost[node] + step_cost(node, successor)
+            if successor not in explored:
+                if successor not in g_cost or new_cost < g_cost[successor]:
+                    g_cost[successor] = new_cost
+                    f_cost = new_cost + h(successor)
+                    frontier.push(successor, f_cost)
+    return failure
+        \end{verbatim}
+\end{itemize}
+
 \end{minipage}
 \hfill
 \begin{minipage}[t]{0.49\textwidth}
-% Second page right column content goes here
+\begin{itemize}
+    \item \textbf{Expectimax}
+    \begin{verbatim}
+function Expectimax(state):
+    if state is terminal:
+        return utility(state)
+    if state is max node:
+        return max over actions of Expectimax(successor(state, action))
+    if state is chance node:
+        return sum over outcomes of P(outcome) * Expectimax(successor(state, outcome))
+    \end{verbatim}
+\end{itemize}
 \end{minipage}
 
 \end{document}
