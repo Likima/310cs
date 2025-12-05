@@ -143,10 +143,10 @@ Definitions: $b$: branching factor, $m$: maximum depth
         \item $V*(s)=\max_a Q*(s,a)$
         \item $Q*(s,a)=\sum_{s'}T(s,a,s')[R(s,a,s')+\gamma V*(s')]$
     \end{itemize}
-    \item Complete Bellman Equation: $V*(s)=\max_a\sum_{s'}T(s,a,s')[R(s,a,s')+\gamma V^*(s')]$
-        \item Policy Extraction via Q-Values: $\pi^*(s)=argmax_a Q^*(s,a)$
-        \item Q-Value Iteration: $Q_{k+1}(s,a) = \sum_{s'}T(s,a,s')[R(s,a,s')+\gamma \max_{a'}Q_k(s',a')]$
-        \item Alternatively, we can perform policy iteration where we calculate values for some fixed policy until convergence, then update the policy using resulting converged values as future values
+    \item $V(s)$: Calculated value of a state 
+    \item $Q(s,a)$: Calculated value of an action from a state
+    \item $\pi (s)$: What action we should take at a state
+    \item Alternatively, we can perform policy iteration where we calculate values for some fixed policy until convergence, then update the policy using resulting converged values as future values
 \end{itemize}
 
 \end{minipage}
@@ -250,6 +250,7 @@ Definitions: $b$: branching factor, $m$: maximum depth
     \item Stationary Assumption: Transition probabilities don't change over time
     \item Joint Distribution: $P(X_0, X_1, \ldots, X_T) = P(X_0) \prod_{t=1}^{T} P(X_t | X_{t-1})$
     \item Filtering: $P(X_t | e_{1:t}) = \alpha P(e_t | X_t) \sum_{x_{t-1}} P(X_t | x_{t-1}) P(x_{t-1} | e_{1:t-1})$
+    \item ($\alpha$ represents the normalization operator here)
     \item Prediction: $P(X_{t+1} | e_{1:t}) = \sum_{x_t} P(X_{t+1} | x_t) P(x_t | e_{1:t})$
     \item Most Likely Explanation: $\text{argmax}_{x_{1:t}} P(x_{1:t} | e_{1:t})$ using Viterbi algorithm
     \item Viterbi: $m_{t+1}[x_{t+1}] = P(e_{t+1} | x_{t+1}) \max_{x_t} P(x_{t+1} | x_t) m_t[x_t]$
@@ -530,6 +531,9 @@ function Backward(observations, T, E):
     \item Total Probability: $P(Y) = \sum_x P(Y|X=x)P(X=x)$
     \item Independence: $P(X,Y) = P(X)P(Y) \iff P(X|Y) = P(X)$
     \item Conditional Independence: $P(X,Y|Z) = P(X|Z)P(Y|Z)$
+    \item Complete Bellman Equation: $V^*(s)=\max_a\sum_{s'}T(s,a,s')[R(s,a,s')+\gamma V^*(s')]$
+    \item Policy Extraction via Q-Values: $\pi^*(s)=argmax_a Q^*(s,a)$
+    \item Q-Value Iteration: $Q_{k+1}(s,a) = \sum_{s'}T(s,a,s')[R(s,a,s')+\gamma \max_{a'}Q_k(s',a')]$
 \end{itemize}
 
 \end{minipage}
