@@ -36,13 +36,11 @@ left=0pt,right=0pt,top=0pt,bottom=0pt]
     Predicted: yes & TP & FN \\
     Predicted: no & FP & TN
     \end{tabular}
-    \item Precision = $\frac{TP}{TP + FP}$ 
-    \item Recall = $\frac{TP}{TP + FN}$ 
-    \item Specificity = $\frac{TN}{TN + FP}$ 
+    \item Precision = $\frac{TP}{TP + FP}$ Recall = $\frac{TP}{TP + FN}$ Specificity = $\frac{TN}{TN + FP}$ 
     \item Cross Validation: Split data into k subsets, train on k-1, test on 1, repeat k times
     \item Overfitting: Model fits training data too closely, fails to generalise
     \item Underfitting: Model too simple to capture underlying structure
-    \item Decision Trees: Create node based on best-split feature, for all split data repeat
+    \item Decision Trees: Create best-split feature node, for all split data repeat
     \item Binary Classification: $f(x) \rightarrow y \in \{1, -1\}$
     \item Regression: $f(x) \rightarrow y \in \mathbb{R}$
     \item Hypothesis class: Function our algo will produce
@@ -50,7 +48,7 @@ left=0pt,right=0pt,top=0pt,bottom=0pt]
     \item Optimization Algo: How do we minimize loss?
     \item Linear Regression:
     \begin{itemize}
-        \item Hypothesis: $f(x) = w_1 + w_2 x$ or $f_w(x)=w\cdot \phi(x): w=[w_1, w_2], \phi(x)=[1,x]$
+        \item Hyp: $f(x) = w_1 + w_2 x$ or $f_w(x)=w\cdot \phi(x): w=[w_1, w_2], \phi(x)=[1,x]$
         \item Loss: $Loss(x,y,w)=(f_w(x)-y)^2$
         \item $TrainLoss(w)=\frac{1}{|D_{train}|}\sum_{(x,y)\in D_{train}}Loss(x,y,w)$
         \item Optimization: $\nabla_w TrainLoss(w) = \frac{1}{|D_{train}|}\sum_{(x,y)\in D_{train}}2(w\cdot \phi(x)-y) \phi(x)$
@@ -58,15 +56,15 @@ left=0pt,right=0pt,top=0pt,bottom=0pt]
     \end{itemize}
     \item Binary Classification: Create a linear function representing a boundary
     \begin{itemize}
-        \item Hypothesis: $f(x)=sign(w\cdot\phi(x)): sign(z)={1:z>0,-1:z<0,0:z=0}$
-        \item Zero One Loss: $Loss_{0-1}(x,y,w)=1[f_w(x)\neq y]$
+        \item Hyp: $f(x)=sign(w\cdot\phi(x)): sign(z)={1:z>0,-1:z<0,0:z=0}$
+        \item Zero-One Loss: $Loss_{0-1}(x,y,w)=1[f_w(x)\neq y]$
         \item Hinge Loss: $Loss_{hinge}(x,y,w)=max\{1-(w\cdot \phi(x))y, 0\}$
         \item Logistic Regression: $Loss_{logistic}(x,y,w)=\log(1+e^{-(w\cdot\phi(x))y})$
     \end{itemize}
     \item Stochastic Gradient Descent: Gradient descent is slow!
     \item Neural Networks 
     \begin{itemize}
-        \item Hypothesis: $f(x) = V \sigma(W\phi(x))$ where $\sigma$ is activation function
+        \item Hyp: $f(x) = V \sigma(W\phi(x))$ where $\sigma$ is activation function
         \item Activation functions: $\sigma(z) = \max\{0,z\}$ (ReLU), $\sigma(z) = \frac{1}{1+e^{-z}}$ (sigmoid)
         \item Forward propagation: Compute layer outputs from input to output
         \item Backpropagation: Compute gradients using chain rule, update weights
@@ -95,24 +93,21 @@ Definitions: $b$: branching factor, $m$: maximum depth
             \item Idea: Expand one node as much as possible before exploring another path
             \item{$O(b^m)$ time complexity}
             \item $O(bm)$ space complexity 
-            \item Complete if infinite tree size prevented
-            \item Not optimal
+            \item Complete if infinite tree size prevented and not optimal
         \end{itemize}
         \item{BFS:}
         \begin{itemize}
             \item Idea: prioritize nodes closest to start
             \item{$O(b^d)$ time complexity where $d$ is depth of solution}
             \item $O(b^d)$ space complexity 
-            \item Complete
-            \item Optimal if step costs are equal
+            \item Complete and optimal if step costs are equal
         \end{itemize}
         \item{Dijkstra's (Uniform Cost Search):}
         \begin{itemize}
             \item Idea: prioritize expansion of low-cost paths 
             \item{$O(b^{1+\lfloor C^*/\epsilon \rfloor})$ time complexity where $C^*$ is optimal cost, $\epsilon$ is minimum step cost}
             \item $O(b^{1+\lfloor C^*/\epsilon \rfloor})$ space complexity 
-            \item Complete if step costs $\geq \epsilon > 0$
-            \item Optimal
+            \item Complete if step costs $\geq \epsilon > 0$ and optimal
         \end{itemize}
         \item{Greedy Search}
         \begin{itemize}
@@ -148,26 +143,118 @@ Definitions: $b$: branching factor, $m$: maximum depth
         \item $V*(s)=\max_a Q*(s,a)$
         \item $Q*(s,a)=\sum_{s'}T(s,a,s')[R(s,a,s')+\gamma V*(s')]$
     \end{itemize}
-\end{itemize}
-
-\end{minipage}
-\hfill
-\begin{minipage}[t]{0.49\textwidth}
-
-\begin{itemize}
     \item Complete Bellman Equation: $V*(s)=\max_a\sum_{s'}T(s,a,s')[R(s,a,s')+\gamma V^*(s')]$
         \item Policy Extraction via Q-Values: $\pi^*(s)=argmax_a Q^*(s,a)$
         \item Q-Value Iteration: $Q_{k+1}(s,a) = \sum_{s'}T(s,a,s')[R(s,a,s')+\gamma \max_{a'}Q_k(s',a')]$
         \item Alternatively, we can perform policy iteration where we calculate values for some fixed policy until convergence, then update the policy using resulting converged values as future values
 \end{itemize}
 
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.49\textwidth}
+
 \textbf{Reinforcement Learning} MDP's without T or R!
 \begin{itemize}
-    \item 
+    \item MDPs, but we have to learn T and R
+    \item Agent tries action A, gets $\{s,r\}$
+    \item Model-Based Reinforcement Learning: Learn an approximate model based on experiences
+    \begin{itemize}
+        \item STEP 1: Learn empirical MDP Model
+        \item Count $s':\forall s,a$
+        \item Normalize to estimate $\hat{T}(s,a,s')$
+        \item Doscover $\hat{R}(s,a,s')$ when we experience $s,a,s'$
+        \item STEP 2: Solve MDP, then run learned policy
+    \end{itemize}
+    \item Model-Free Reinforcement Learning: Learn policies/values directly from experience
+    \begin{itemize}
+        \item Passive RL: Execute a fixed policy $\pi(s)$ and learn state values
+        \item Direct Evaluation: Average sample values for each state
+        \item Temporal Difference Learning: Update $V^\pi(s)$ after each transition
+        \item TD Update: $V^\pi(s) \leftarrow (1-\alpha)V^\pi(s) + \alpha[R(s,\pi(s),s') + \gamma V^\pi(s')]$
+        \item Active RL: Learn optimal policy while acting
+        \item Q-Learning: Learn Q-values without knowing T or R
+        \item Q-Learning Update: $Q(s,a) \leftarrow (1-\alpha)Q(s,a) + \alpha[R(s,a,s') + \gamma \max_{a'}Q(s',a')]$
+        \item Exploration vs Exploitation: Balance trying new actions vs using known good actions
+        \item $\epsilon$-greedy: With probability $\epsilon$ choose random action, else choose $argmax_a Q(s,a)$
+        \item We can approximate Q-learning with functions $f_1, f_2, \cdots$
+        \item $V(s)=w_1f_1(s)+w_2f_2(s)+\cdots+w_nf_n(s)$
+        \item $Q(s,a)=w_1f_1(s,a)+w_2f_2(s,a)+\cdots+w_nf_n(s,a)$
+    \end{itemize}
+\end{itemize}
+
+\textbf{Games}
+\begin{itemize}
+    \item Types of games: Zero-sum: Competition (agents have opposite utilities), General-sum games: Agents have independent utilities
+    \item We have states $s \in S$, players $p \in P$, actions $a\in A$, functions $S x A \rightarrow S$, terminal test $S\rightarrow \{true, false\}$, terminal utilities: $S x P \rightarrow R$
+    \item Minimax: Time: $O(b^m)$, Space: $O(bm)$
+    \item Alpha-Beta Pruning: Prune branches in a minimax tree to increase efficiency. Time: $O(b^{m/2})$.
+    \item Multi-agent minimax: Terminals have utility tuples, node values are also utility tuples, each player maximizes its own component.
+    \item Monte-Carlo Tree Search 
+    \begin{itemize}
+        \item Evaluation by rollouts: play multiple games to termination from a state s and count wins and losses 
+        \item Selective search: explore parts of the tree that will help improve the decision at the root, regardless of depth
+    \end{itemize}
+    \item Rollout: for each rollout, repeat until terminal: play a move according to a fixed, fast rollout policy. The fraction of wins correlates with the true value of the position
+    \item MCTS V1: Allocate rollouts to promising and uncertain nodes.
+    \item promicing and uncertain are defined by: $UCB1(n)=\frac{U(n)}{N(n)}+C \times \sqrt{\frac{\log N(PARENT(n))}{N(n)}}$
+    \begin{itemize}
+        \item $N(n)$ number of rollouts from node n 
+        \item $U(n)$ total utility of rollouts for Player(Parent(n))
+    \end{itemize}
+    \item Theorem: As $N\rightarrow\infty$ UCT selects the minimax move
 \end{itemize}
 
 \textbf{Bayesian Networks}
-
+\begin{itemize}
+    \item $P(a|b)=\frac{P(a,b)}{P(b)}$
+    \item $P(Y|e)=\frac{P(Y,e)}{P(e)}=\alpha P(Y,e) = \alpha \sum_{h\in H} P(Y,e,h) \rightarrow \alpha = \sum_{y\in Y}P(Y,e)$
+    \item Normalization: multiple each entry by $\alpha = 1/(\text{Sum of all entries})$
+    \item Chain Rule: $P(x_1,x_2,\cdots ,x_n)=\Pi_i P(x_i|x_1,\cdots, x_{i-1})$
+    \item Bayesian Statistics: Probabilities represent my uncertainty about the world
+    \item Frequentist Statistics: Probabilities represent frequencies of real random outcomes. Properties of the world are fixed
+    \item Probabalistic Inference: compute a desired probability from a probability model:
+    \begin{itemize}
+        \item Enumerate options with sun
+        \item Sum out irrelevant variables
+        \item Normalize
+    \end{itemize}
+    \item Time, Space, Data points: $O(d^n)$
+    \item Bayes Rule: $p(H=h|Y=y)=\frac{P(H=h)P(Y=y|H=h)}{P(Y=y)}$, $P(a|b)=\frac{P(b|a)P(a)}{P(b)}$
+    \item $P(Y=y) = \sum_{h'\in H} p(H=h')P(Y=y|H=h')$
+    \item Two variables X and Y are independent if $\forall x,y: P(x,y)=P(x)P(y)$
+    \item This implies that $P(x|y)=P(x), P(y|x)=P(y)$
+    \item Conditional Independence: X is conditionally independent of Y given Z iff:
+    \begin{itemize}
+        \item $\forall x,y,z: P(x|y,z)=P(x|z)$ or $\forall x,y,z: P(x,y|z)=P(x|z)P(y|z)$
+    \end{itemize}
+    \item Bayes' Nets: Complex joint distributions using conditional distributions
+    \begin{itemize}
+        \item Nodes: Variables(with domains). Can be assigned (observed) or unassigned (unobserved)
+        \item Arcs: Interactions that indicate direct influence between variables
+        \item For a Bayesian net, we have a set of nodes: $X_i$ for each variable, a directed acyclic graph, and a conditional distribution for each node given its parent variables in the graph 
+        \item A conditional probability table is a table where each row is a distribution for the child given values of its parents 
+        \item $P(X_1, \cdots X_n)=\Pi_i P(X_i | Parents(X_i))$
+    \end{itemize}
+\end{itemize}
+\textbf{Markov Models}
+\begin{itemize}
+    \item Markov Models have an initial distribution $P(x_0)$, transition model $P(X_t | X_{t-1})$
+    \item Hidden Markov Models have an additional sensor model with observations $P(E_t | X_t)$
+    \begin{itemize}
+        \item Filtering $P(X_t|e_{1:t})$
+        \item Prediction $P(X_{t+k} | e_{1:t})$
+        \item Smoothing: $P(X_k | e_{1:t}): k<t$
+        \item Explanation: $P(X_{1:t} | e_{1:t})$
+    \end{itemize}
+    \item Markov Assumption: $P(X_t | X_0, \ldots, X_{t-1}) = P(X_t | X_{t-1})$
+    \item Stationary Assumption: Transition probabilities don't change over time
+    \item Joint Distribution: $P(X_0, X_1, \ldots, X_T) = P(X_0) \prod_{t=1}^{T} P(X_t | X_{t-1})$
+    \item Filtering: $P(X_t | e_{1:t}) = \alpha P(e_t | X_t) \sum_{x_{t-1}} P(X_t | x_{t-1}) P(x_{t-1} | e_{1:t-1})$
+    \item Prediction: $P(X_{t+1} | e_{1:t}) = \sum_{x_t} P(X_{t+1} | x_t) P(x_t | e_{1:t})$
+    \item Most Likely Explanation: $\text{argmax}_{x_{1:t}} P(x_{1:t} | e_{1:t})$ using Viterbi algorithm
+    \item Viterbi: $m_{t+1}[x_{t+1}] = P(e_{t+1} | x_{t+1}) \max_{x_t} P(x_{t+1} | x_t) m_t[x_t]$
+    \item Time steps: Elapse time (predict forward), observe (weight particles), resample
+\end{itemize}
 \end{minipage}
 
 \end{tcolorbox}
@@ -312,17 +399,139 @@ function AStar(problem):
 \hfill
 \begin{minipage}[t]{0.49\textwidth}
 \begin{itemize}
-    \item \textbf{Expectimax}
+    \item \textbf{Expectimax: For games with chance nodes, compute expected values instead of min/max}
     \begin{verbatim}
-function Expectimax(state):
+function EM(state):
     if state is terminal:
         return utility(state)
     if state is max node:
-        return max over actions of Expectimax(successor(state, action))
+        return max over actions of EM(successor(state, action))
     if state is chance node:
-        return sum over outcomes of P(outcome) * Expectimax(successor(state, outcome))
+        return sum outcomes of P(outcome) * EM(successor(state, outcome))
     \end{verbatim}
+    \item \textbf{Minimax}
+    \begin{verbatim}
+function Minimax(state):
+    if state is terminal:
+        return utility(state)
+    if state is max node:
+        return max over actions of Minimax(successor(state, action))
+    if state is min node:
+        return min over actions of Minimax(successor(state, action))
+    \end{verbatim}
+    \item \textbf{Alpha Beta Pruning}
+    \begin{verbatim}
+function ABP(state, alpha, beta):
+    if state is terminal:
+        return utility(state)
+    if state is max node:
+        v = -infinity
+        for each action:
+            v = max(v, ABP(successor(state, action), alpha, beta))
+            if v >= beta:
+                return v  # Beta cutoff
+            alpha = max(alpha, v)
+        return v
+    if state is min node:
+        v = +infinity
+        for each action:
+            v = min(v, ABP(successor(state, action), alpha, beta))
+            if v <= alpha:
+                return v  # Alpha cutoff
+            beta = min(beta, v)
+        return v
+    \end{verbatim}
+    \item \textbf{MCTS Version 2.0 UCT}
+\begin{verbatim}
+function MCTS(root_state):
+    tree = {root_state}
+    N = {root_state: 0}
+    U = {root_state: 0}
+    repeat until out of time:
+        # Selection: traverse tree using UCB1
+        node = root_state
+        path = [node]
+        while node is fully expanded and not terminal:
+            node = argmax_child UCB1(child)
+            path.append(node)
+        # Expansion: add new child
+        if node is not terminal:
+            child = unexplored_child(node)
+            tree.add(child)
+            N[child] = 0
+            U[child] = 0
+            path.append(child)
+        # Simulation: rollout from new node
+        result = rollout(child)
+        # Backpropagation: update counts
+        for n in path:
+            N[n] += 1
+            U[n] += result
+    # Return action with highest visit count
+    return argmax_child N[child]
+\end{verbatim}
+\item \textbf{Value Iteration}
+\begin{verbatim}
+function ValueIteration(S, A, T, R, gamma):
+    Initialize V(s) = 0 for all s
+    repeat until convergence:
+        V_new = {}
+        for each state s in S:
+            V_new[s] = max_a sum_s' T(s,a,s')[R(s,a,s') + gamma*V(s')]
+        V = V_new
+    return V, extract_policy(V)
+\end{verbatim}
+\item \textbf{Policy Iteration}
+\begin{verbatim}
+function PolicyIteration(S, A, T, R, gamma):
+    Initialize random policy pi
+    repeat until policy stable:
+        # Policy Evaluation
+        V = solve V(s) = sum_s' T(s,pi(s),s')[R(s,pi(s),s') + gamma*V(s')]
+        # Policy Improvement
+        pi_new(s) = argmax_a sum_s' T(s,a,s')[R(s,a,s') + gamma*V(s')]
+        if pi_new == pi: break
+        pi = pi_new
+    return pi
+\end{verbatim}
+\item \textbf{Forward Algorithm for Hidden Markov Models}
+\begin{verbatim}
+function Forward(observations, T, E, pi):
+    alpha_0 = pi * E[obs_0]
+    for t = 1 to T:
+        alpha_t = E[obs_t] * (T^T * alpha_{t-1})
+        normalize(alpha_t)
+    return alpha_T
+\end{verbatim}
+\item \textbf{Backward Algorithm}
+\begin{verbatim}
+function Backward(observations, T, E):
+    beta_T = [1, 1, ..., 1]
+    for t = T-1 down to 0:
+        beta_t = T * (E[obs_{t+1}] * beta_{t+1})
+        normalize(beta_t)
+    return beta_0
+\end{verbatim}
 \end{itemize}
+\textbf{Equations}
+\begin{itemize}
+    \item{Exponential Moving Average: $x_n = \alpha x_{n-1} + (1-\alpha)x_n$}
+    \item Log-Based Normalization: $\frac{1}{T}\log(P(w_0,\ldots,w_T))=\frac{1}{T}\sum_{t-1}^{T}\log(P(w_t | w_{t-1}))$
+    \item HMM Forward Pass: $\alpha_t (j)=P(O_t | X_{t}=j)\sum_i \alpha_{t-1}(i) \cdot P(X_{t} = j | X_{t-1}=i)$
+    \item Entropy: $H(X) = -\sum_{i} P(x_i) \log_2 P(x_i)$
+    \item Information Gain: $IG(Y|X) = H(Y) - \sum_{x \in X} P(x) H(Y|X=x)$
+    \item Learning rate decay: $\alpha_t = \frac{1}{1+t}$
+    \item L2 Regularization: $\lambda ||w||_2^2 = \lambda \sum_i w_i^2$
+    \item Sum of geometric series: $\sum_{t=0}^{\infty} \gamma^t = \frac{1}{1-\gamma}$ for $|\gamma| < 1$
+    \item Conditional probability expansion: $P(A,B|C) = P(A|B,C)P(B|C)$
+    \item Law of Total Probability: $P(A) = \sum_i P(A|B_i)P(B_i)$
+    \item Marginalization: $P(X) = \sum_y P(X,Y=y)$
+    \item Product Rule: $P(X,Y) = P(X|Y)P(Y) = P(Y|X)P(X)$
+    \item Total Probability: $P(Y) = \sum_x P(Y|X=x)P(X=x)$
+    \item Independence: $P(X,Y) = P(X)P(Y) \iff P(X|Y) = P(X)$
+    \item Conditional Independence: $P(X,Y|Z) = P(X|Z)P(Y|Z)$
+\end{itemize}
+
 \end{minipage}
 
 \end{document}
